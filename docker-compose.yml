@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      DB_HOST: database
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: hypermediashop
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+    links:
+      - "postgres:database"
+
+  #  start Postgres, and ensure that data is stored to a mounted volume
+  postgres:
+    image: "postgres:16.0"
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hypermediashop
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
