@@ -2,6 +2,7 @@ package router
 
 import (
 	"encoding/json"
+	"html/template"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -24,6 +25,11 @@ func New(db *db.Database) *Router {
 
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+
+	r.Get("/", func(w http.ResponseWriter, _ *http.Request) {
+		tmpl := template.Must(template.ParseFiles("templates/index.html"))
+		tmpl.ExecuteTemplate(w, "index.html", nil)
+	})
 
 	r.Get("/ping", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
