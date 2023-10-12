@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/ploMP4/HyperMediaShop/db"
+	"github.com/ploMP4/HyperMediaShop/render"
 )
 
 type ProductHandler struct {
-	DB *db.Database
+	DB       *db.Database
+	Renderer *render.Renderer
 }
 
 func (h ProductHandler) All(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("Hello Products"))
+	h.Renderer.ExecuteTemplate(w, "home", nil)
 }

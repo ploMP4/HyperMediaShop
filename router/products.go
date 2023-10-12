@@ -3,7 +3,10 @@ package router
 import "github.com/ploMP4/HyperMediaShop/handlers"
 
 func (r *Router) setupProductRoutes() {
-	handler := handlers.ProductHandler{DB: r.db}
+	productHandler := handlers.ProductHandler{
+		DB:       r.db,
+		Renderer: r.renderer,
+	}
 
-	r.Get("/product", handler.All)
+	r.Get("/", productHandler.All)
 }
