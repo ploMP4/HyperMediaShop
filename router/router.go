@@ -8,21 +8,18 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 
 	"github.com/ploMP4/HyperMediaShop/db"
-	"github.com/ploMP4/HyperMediaShop/render"
 )
 
 type Router struct {
 	*chi.Mux
 
-	db       *db.Database
-	renderer *render.Renderer
+	db *db.Database
 }
 
 func New(db *db.Database) *Router {
 	r := &Router{
-		Mux:      chi.NewRouter(),
-		db:       db,
-		renderer: render.New(),
+		Mux: chi.NewRouter(),
+		db:  db,
 	}
 
 	r.Use(middleware.Logger)

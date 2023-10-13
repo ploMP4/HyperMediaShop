@@ -1,4 +1,5 @@
 build:
+	templ generate -path ./templates/ 
 	docker-compose build 
 
 start: 
