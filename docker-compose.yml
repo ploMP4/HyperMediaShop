@@ -30,4 +30,4 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: hypermediashop
     volumes:
-      - ./db-data/postgres/:/var/lib/postgresql/data/
+      - /home/plo/db-data/postgres/:/var/lib/postgresql/data/
