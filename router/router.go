@@ -25,6 +25,9 @@ func New(db *db.Database) *Router {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	fs := http.FileServer(http.Dir("static"))
+	r.Handle("/static/*", http.StripPrefix("/static/", fs))
+
 	r.Get("/ping", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
