@@ -1,6 +1,9 @@
 package templates
 
-templ Index() {
+import "github.com/ploMP4/HyperMediaShop/models"
+import "fmt"
+
+templ Index(products []models.Product) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -16,24 +19,14 @@ templ Index() {
 				<div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
 					<h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
 					<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-						@ProductCard(
-                          "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg", 
-                          "Basic Tee", 
-                          "Black", 
-                          "35",
-						)
-						@ProductCard(
-                          "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg", 
-                          "Green Tee", 
-                          "Green", 
-                          "25",
-						)
-						@ProductCard(
-                          "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg", 
-                          "Red Tee", 
-                          "Red", 
-                          "90",
-						)
+						for _, product := range products {
+							@ProductCard(
+                              product.ImgURL,
+                              product.Name, 
+                              product.Description.String, 
+                              product.Price,
+							)
+						}
 					</div>
 				</div>
 			</div>
@@ -41,7 +34,7 @@ templ Index() {
 	</html>
 }
 
-templ ProductCard(imgURL, name, description, price string  ) {
+templ ProductCard(imgURL, name, description string, price int) {
 	<div class="group relative">
 		<div
  			class="aspect-h-1 aspect-w-1 
@@ -64,7 +57,7 @@ templ ProductCard(imgURL, name, description, price string  ) {
 				</h3>
 				<p class="mt-1 text-sm text-gray-500">{ description }</p>
 			</div>
-			<p class="text-sm font-medium text-gray-900">${ price }</p>
+			<p class="text-sm font-medium text-gray-900">${ fmt.Sprintf("%d", price) }</p>
 		</div>
 	</div>
 }
