@@ -6,26 +6,23 @@ import (
 
 	"github.com/go-chi/httplog/v2"
 
-	"github.com/ploMP4/HyperMediaShop/db"
-	"github.com/ploMP4/HyperMediaShop/models"
+	"github.com/ploMP4/HyperMediaShop/services"
 	"github.com/ploMP4/HyperMediaShop/templates"
 )
 
 type ProductHandler struct {
-	DB     *db.Database
-	Logger *httplog.Logger
+	Logger  *httplog.Logger
+	Service services.ProductService
 }
 
 func (h ProductHandler) All(w http.ResponseWriter, r *http.Request) {
-	var products []models.Product
-
-	result := h.DB.Instance.Find(&products)
-	if result.Error != nil {
-		h.Logger.Error("error", "err", result.Error)
+	products, err := h.Service.All()
+	if err != nil {
+		h.Logger.Error("error", "err", err)
 	}
 
 	homePage := templates.Index(products)
-	err := homePage.Render(context.Background(), w)
+	err = homePage.Render(context.Background(), w)
 	if err != nil {
 		h.Logger.Error("error", "err", err)
 	}
