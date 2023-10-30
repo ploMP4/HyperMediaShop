@@ -11,7 +11,7 @@ import (
 )
 
 type Database struct {
-	Conn *gorm.DB
+	Instance *gorm.DB
 }
 
 func Connect() (*Database, error) {
@@ -30,12 +30,12 @@ func Connect() (*Database, error) {
 	}
 
 	db := &Database{
-		Conn: conn,
+		Instance: conn,
 	}
 
 	return db, nil
 }
 
 func (db *Database) Migrate() error {
-	return db.Conn.AutoMigrate(&models.Product{})
+	return db.Instance.AutoMigrate(&models.Product{})
 }
