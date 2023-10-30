@@ -2,10 +2,12 @@ package router
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/httplog/v2"
 
 	"github.com/ploMP4/HyperMediaShop/db"
 )
@@ -13,16 +15,24 @@ import (
 type Router struct {
 	*chi.Mux
 
-	db *db.Database
+	db     *db.Database
+	logger *httplog.Logger
 }
 
 func New(db *db.Database) *Router {
+	logger := httplog.NewLogger("logger", httplog.Options{
+		LogLevel:         slog.LevelDebug,
+		MessageFieldName: "detail",
+		Concise:          true,
+	})
+
 	r := &Router{
-		Mux: chi.NewRouter(),
-		db:  db,
+		Mux:    chi.NewRouter(),
+		db:     db,
+		logger: logger,
 	}
 
-	r.Use(middleware.Logger)
+	r.Use(httplog.RequestLogger(logger))
 	r.Use(middleware.Recoverer)
 
 	fs := http.FileServer(http.Dir("static"))
