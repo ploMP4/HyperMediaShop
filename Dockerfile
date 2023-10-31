@@ -29,10 +29,10 @@ COPY --from=build /app ./
 
 RUN templ generate -path ./templates
 
+RUN go install github.com/cosmtrek/air@latest
+
 COPY . .
 
 RUN go build -o main ./cmd/...
-
-EXPOSE 3000
 
 CMD ["./main"]

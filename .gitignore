@@ -1,2 +1,5 @@
 node_modules/
 templates/*_templ.go
+tmp/
+dist/
+static/css/output.css
