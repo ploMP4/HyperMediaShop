@@ -10,6 +10,7 @@ import (
 	"github.com/go-chi/httplog/v2"
 
 	"github.com/ploMP4/HyperMediaShop/db"
+	"github.com/ploMP4/HyperMediaShop/handlers"
 )
 
 type Router struct {
@@ -43,6 +44,8 @@ func New(db *db.Database) *Router {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode("pong")
 	})
+
+	r.NotFound(handlers.NotFoundHanlder)
 
 	r.setupProductRoutes()
 
