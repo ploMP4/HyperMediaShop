@@ -1,40 +1,46 @@
 package templates
 
-import "github.com/ploMP4/HyperMediaShop/models"
-import "fmt"
+import (
+  "fmt"
+  "github.com/ploMP4/HyperMediaShop/models"
+)
 
 templ Index(products []models.Product) {
-	<!DOCTYPE html>
-	<html lang="en">
-		<head>
-			<title>Index</title>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1"/>
-			<link rel="stylesheet" href="/static/css/output.css"/>
-			<script src="https://unpkg.com/htmx.org@1.9.6"></script>
-		</head>
-		<body>
-			@Navbar()
-			<div class="bg-white">
-				<div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-					<h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
-					<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-						for _, product := range products {
-							@ProductCard(
+	@Layout() {
+		<div class="bg-white">
+			<div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+				<h2 class="text-2xl font-bold tracking-tight text-gray-900">Featured</h2>
+				<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+					for _, product := range products {
+						@ProductCard(
+                              product.ID,
                               product.ImgURL,
                               product.Name, 
                               product.Description.String, 
                               product.Price,
 							)
-						}
-					</div>
+					}
 				</div>
 			</div>
-		</body>
-	</html>
+			<div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-12 lg:max-w-7xl lg:px-8">
+				<h2 class="text-2xl font-bold tracking-tight text-gray-900">All Products</h2>
+				<div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+					for _, product := range products {
+						@ProductCard(
+                              product.ID,
+                              product.ImgURL,
+                              product.Name, 
+                              product.Description.String, 
+                              product.Price,
+							)
+					}
+				</div>
+			</div>
+		</div>
+	}
 }
 
-templ ProductCard(imgURL, name, description string, price int) {
+templ ProductCard(id, imgURL, name, description string, price int) {
 	<div class="group relative">
 		<div
  			class="aspect-h-1 aspect-w-1 
@@ -43,14 +49,14 @@ templ ProductCard(imgURL, name, description string, price int) {
 		>
 			<img
  				src={ imgURL }
- 				alt="Front of men&#39;s Basic Tee in black."
+ 				alt={ fmt.Sprintf("Image for %s", name) }
  				class="h-full w-full object-cover object-center lg:h-full lg:w-full"
 			/>
 		</div>
 		<div class="mt-4 flex justify-between">
 			<div>
-				<h3 class="text-sm text-gray-700">
-					<a href="#">
+				<h3 class="text-sm text-gray-700" hx-boost="true">
+					<a href={ templ.SafeURL(fmt.Sprintf("/product/%s", id)) }>
 						<span aria-hidden="true" class="absolute inset-0"></span>
 						{ name }
 					</a>
