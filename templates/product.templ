@@ -1,0 +1,9 @@
+package templates
+
+import "github.com/ploMP4/HyperMediaShop/models"
+
+templ ProductPage(product models.Product) {
+	@Layout() {
+		{ product.Name }
+	}
+}

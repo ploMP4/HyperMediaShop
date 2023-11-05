@@ -7,6 +7,7 @@ import (
 
 type ProductService interface {
 	All() ([]models.Product, error)
+	Retrieve(id string) (models.Product, error)
 }
 
 type Product struct {
@@ -22,4 +23,15 @@ func (s Product) All() ([]models.Product, error) {
 	}
 
 	return products, nil
+}
+
+func (s Product) Retrieve(id string) (models.Product, error) {
+	var product models.Product
+
+	result := s.DB.Instance.First(&product, "id = ?", id)
+	if result.Error != nil {
+		return product, result.Error
+	}
+
+	return product, nil
 }
