@@ -1,16 +1,15 @@
 package models
 
-import (
-	"database/sql"
-	"time"
-)
+import "database/sql"
 
 type Product struct {
-	ID          string `gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
-	Name        string `gorm:"not null"`
+	BaseModel
+
+	Name        string `gorm:"not null;type:varchar(150)"`
 	Description sql.NullString
 	ImgURL      string `gorm:"default:https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"`
 	Price       int    `gorm:"not null"`
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+
+	Categories []*Category `gorm:"many2many:product_category"`
+	Reviews    []Review
 }
