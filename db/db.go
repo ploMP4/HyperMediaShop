@@ -37,27 +37,14 @@ func Connect() (*Database, error) {
 }
 
 func (db *Database) Migrate() error {
-	err := db.Instance.AutoMigrate(&models.User{})
-	if err != nil {
-		return err
-	}
+	err := db.Instance.AutoMigrate(
+		&models.User{},
+		&models.Product{},
+		&models.Category{},
+		&models.Review{},
+		&models.Order{},
+	)
 
-	err = db.Instance.AutoMigrate(&models.Product{})
-	if err != nil {
-		return err
-	}
-
-	err = db.Instance.AutoMigrate(&models.Category{})
-	if err != nil {
-		return err
-	}
-
-	err = db.Instance.AutoMigrate(&models.Review{})
-	if err != nil {
-		return err
-	}
-
-	err = db.Instance.AutoMigrate(&models.Order{})
 	if err != nil {
 		return err
 	}
