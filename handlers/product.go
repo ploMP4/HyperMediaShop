@@ -2,10 +2,12 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/httplog/v2"
+	"gorm.io/gorm"
 
 	"github.com/ploMP4/HyperMediaShop/services"
 	"github.com/ploMP4/HyperMediaShop/templates"
@@ -35,10 +37,12 @@ func (h ProductHandler) Retrieve(w http.ResponseWriter, r *http.Request) {
 	productID := chi.URLParam(r, "id")
 
 	product, err := h.Service.Retrieve(productID)
-	if err != nil {
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
 		h.Logger.Error("error", "err", err)
 		NotFoundHanlder(w, r)
 		return
+	} else if err != nil {
+		h.Logger.Error("error", "err", err)
 	}
 
 	productPage := templates.ProductPage(product)
