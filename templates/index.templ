@@ -1,8 +1,8 @@
 package templates
 
 import (
-  "fmt"
-  "github.com/ploMP4/HyperMediaShop/models"
+	"fmt"
+	"github.com/ploMP4/HyperMediaShop/models"
 )
 
 templ Index(products []models.Product) {
@@ -14,7 +14,7 @@ templ Index(products []models.Product) {
 					for _, product := range products {
 						@ProductCard(
                               product.ID,
-                              product.ImgURL,
+                              product.PreviewImgURL,
                               product.Name, 
                               product.Description.String, 
                               product.Price,
@@ -28,7 +28,7 @@ templ Index(products []models.Product) {
 					for _, product := range products {
 						@ProductCard(
                               product.ID,
-                              product.ImgURL,
+                              product.PreviewImgURL,
                               product.Name, 
                               product.Description.String, 
                               product.Price,
