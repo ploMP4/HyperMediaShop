@@ -17,7 +17,9 @@ type Product struct {
 func (s Product) All() ([]models.Product, error) {
 	var products []models.Product
 
-	result := s.DB.Instance.Find(&products)
+	result := s.DB.Instance.
+		Preload("Reviews").
+		Find(&products)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -28,7 +30,9 @@ func (s Product) All() ([]models.Product, error) {
 func (s Product) Retrieve(id string) (models.Product, error) {
 	var product models.Product
 
-	result := s.DB.Instance.First(&product, "id = ?", id)
+	result := s.DB.Instance.
+		Preload("Reviews").
+		First(&product, "id = ?", id)
 	if result.Error != nil {
 		return product, result.Error
 	}
