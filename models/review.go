@@ -16,3 +16,7 @@ type Review struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+func (r Review) String() string {
+	return r.Title
+}

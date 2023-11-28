@@ -7,3 +7,7 @@ type Category struct {
 
 	Products []*Product `gorm:"many2many:product_category"`
 }
+
+func (c Category) String() string {
+	return c.Name
+}

@@ -7,7 +7,7 @@ import (
 	"github.com/ploMP4/HyperMediaShop/templates"
 )
 
-func NotFoundHanlder(w http.ResponseWriter, r *http.Request) {
+func NotFoundHanlder(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
 	NotFound := templates.NotFound()
 	_ = NotFound.Render(context.Background(), w)

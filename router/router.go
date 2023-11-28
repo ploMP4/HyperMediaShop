@@ -42,7 +42,7 @@ func New(db *db.Database) *Router {
 	r.Get("/ping", func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode("pong")
+		_ = json.NewEncoder(w).Encode("pong")
 	})
 
 	r.NotFound(handlers.NotFoundHanlder)
@@ -53,5 +53,5 @@ func New(db *db.Database) *Router {
 }
 
 func (router *Router) Run() {
-	http.ListenAndServe(":3000", router)
+	_ = http.ListenAndServe(":3000", router)
 }

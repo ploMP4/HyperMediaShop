@@ -19,3 +19,7 @@ type Order struct {
 	UserID   string    `gorm:"index;type:uuid"`
 	Products []Product `gorm:"many2many:order_product"`
 }
+
+func (o Order) String() string {
+	return o.Address
+}

@@ -17,3 +17,7 @@ type User struct {
 	Orders  []Order
 	Reviews []Review
 }
+
+func (u User) String() string {
+	return u.FirstName + " " + u.LastName
+}

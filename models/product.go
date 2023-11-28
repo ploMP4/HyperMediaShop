@@ -19,3 +19,7 @@ type Product struct {
 	Categories []*Category `gorm:"many2many:product_category"`
 	Reviews    []Review
 }
+
+func (p Product) String() string {
+	return p.Name
+}
