@@ -9,10 +9,10 @@ type Product struct {
 	DB *db.Database
 }
 
-func (s Product) All() ([]models.Product, error) {
+func (p Product) All() ([]models.Product, error) {
 	var products []models.Product
 
-	result := s.DB.Instance.
+	result := p.DB.Instance.
 		Preload("Reviews").
 		Find(&products)
 
@@ -23,10 +23,10 @@ func (s Product) All() ([]models.Product, error) {
 	return products, nil
 }
 
-func (s Product) Retrieve(id string) (models.Product, error) {
+func (p Product) Retrieve(id string) (models.Product, error) {
 	var product models.Product
 
-	result := s.DB.Instance.
+	result := p.DB.Instance.
 		Preload("Reviews").
 		First(&product, "id = ?", id)
 
