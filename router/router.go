@@ -48,6 +48,8 @@ func New(db *db.Database) *Router {
 	r.NotFound(handlers.NotFoundHanlder)
 
 	r.setupProductRoutes()
+	r.setupAuthRoutes()
+	r.setupAdminRoutes()
 
 	return r
 }
